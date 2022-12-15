@@ -11,7 +11,7 @@ from tf.transformations import quaternion_from_euler
 class Waypoints():
     def __init__(self):
         rospy.init_node('waypoint')
-        self.topic_name = "goal"
+        self.topic_name = "/goal"
         self.new_points = list()
         self.current_sequence = 0
         try:
@@ -24,10 +24,10 @@ class Waypoints():
         
         if(self.start_record_points):
             #dont do anything until it finishes record the points needed
-            message = rospy.wait_for_message(self.topic_name, PoseStamped, rospy.Duration(5.0))
+            message = rospy.wait_for_message(self.topic_name, PoseStamped, rospy.Duration(30.0))
             if not message:
                 rospy.logdebug("Too long to wait the message. This node is automatically destroyed")
-                rospy.signal_shutdown("No message received in " + rospy.Duration(5.0))
+                rospy.signal_shutdown("No message received in " + rospy.Duration(30.0))
             
             wait = 'n'
             while wait != 'y':
